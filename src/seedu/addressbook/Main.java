@@ -24,6 +24,7 @@ public class Main {
 
     /** Version info of the program. */
     public static final String VERSION = "AddressBook Level 2 - Version 1.0";
+    public static final String READ_ONLY_ERROR_STATUS = "The saved file could be set to read only.";
 
     private TextUi ui;
     private StorageFile storage;
@@ -113,7 +114,7 @@ public class Main {
             return result;
         } catch (StorageOperationException e) {
             ui.showToUser(e.getMessage());
-            CommandResult result = new CommandResult("The saved file could be set to read only.");
+            CommandResult result = new CommandResult(READ_ONLY_ERROR_STATUS);
             return result;
         } catch (Exception e) {
             ui.showToUser(e.getMessage());

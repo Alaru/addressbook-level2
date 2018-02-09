@@ -13,6 +13,10 @@ public class Address {
                                                                 " Unit Number, Postal Code)";
     public static final String ADDRESS_VALIDATION_REGEX = "\\d+, .+, .+, \\d+";
     private static final String ADDRESS_DELIMITER = ", ";
+    private static final int BLOCK_INDEX = 0;
+    private static final int STREET_INDEX = 1;
+    private static final int UNIT_INDEX = 2;
+    private static final int POSTALCODE_INDEX = 3;
 
     public final String value;
     private Block block;
@@ -42,10 +46,10 @@ public class Address {
      */
     private void createAddress(String address) {
         String[] addressValues = address.split(ADDRESS_DELIMITER);
-        block = new Block(addressValues[0]);
-        street = new Street(addressValues[1]);
-        unit = new Unit(addressValues[2]);
-        postalCode = new PostalCode(addressValues[3]);
+        block = new Block(addressValues[BLOCK_INDEX]);
+        street = new Street(addressValues[STREET_INDEX]);
+        unit = new Unit(addressValues[UNIT_INDEX]);
+        postalCode = new PostalCode(addressValues[POSTALCODE_INDEX]);
     }
 
     private Block getBlock() { return block; }

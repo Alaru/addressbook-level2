@@ -15,8 +15,6 @@ public class PostalCode {
         this.value = trimmedPostalCode;
     }
 
-    public String getPostalCode() { return value; }
-
     @Override
     public String toString() {
         return value;

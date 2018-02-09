@@ -15,8 +15,6 @@ public class Unit {
         this.value = trimmedUnit;
     }
 
-    public String getUnit() { return value; }
-
     @Override
     public String toString() {
         return value;

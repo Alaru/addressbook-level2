@@ -15,8 +15,6 @@ public class Street {
         this.value = trimmedStreet;
     }
 
-    public String getStreet() { return value; }
-
     @Override
     public String toString() {
         return value;

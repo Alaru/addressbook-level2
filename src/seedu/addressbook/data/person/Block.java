@@ -15,8 +15,6 @@ public class Block {
         this.value = trimmedBlock;
     }
 
-    public String getBlock() { return value; }
-
     @Override
     public String toString() {
         return value;

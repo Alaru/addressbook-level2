@@ -79,7 +79,7 @@ public class TextUi {
      * @return command (full line) entered by the user
      */
     public String getUserCommand() {
-        out.print(LINE_PREFIX + "Enter command: ");
+        out.print(Formatter.getCommmandPrompt());
         String fullInputLine = in.nextLine();
 
         // silently consume all ignored lines
@@ -87,30 +87,23 @@ public class TextUi {
             fullInputLine = in.nextLine();
         }
 
-        showToUser("[Command entered:" + fullInputLine + "]");
+        showToUser(Formatter.confirmUserCommand(fullInputLine));
         return fullInputLine;
     }
 
 
     public void showWelcomeMessage(String version, String storageFilePath) {
         String storageFileInfo = String.format(MESSAGE_USING_STORAGE_FILE, storageFilePath);
-        showToUser(
-                DIVIDER,
-                DIVIDER,
-                MESSAGE_WELCOME,
-                version,
-                MESSAGE_PROGRAM_LAUNCH_ARGS_USAGE,
-                storageFileInfo,
-                DIVIDER);
+        showToUser(Formatter.formatWelcomeMessage(version, storageFileInfo));
     }
 
     public void showGoodbyeMessage() {
-        showToUser(MESSAGE_GOODBYE, DIVIDER, DIVIDER);
+        showToUser(Formatter.formatGoodbyeMessage());
     }
 
 
     public void showInitFailedMessage() {
-        showToUser(MESSAGE_INIT_FAILED, DIVIDER, DIVIDER);
+        showToUser(Formatter.formatInitFailedMessage());
     }
 
     /** Shows message(s) to the user */
@@ -129,7 +122,7 @@ public class TextUi {
         if (resultPersons.isPresent()) {
             showPersonListView(resultPersons.get());
         }
-        showToUser(result.feedbackToUser, DIVIDER);
+        showToUser(Formatter.formatResult(result.feedbackToUser));
     }
 
     /**
@@ -166,7 +159,7 @@ public class TextUi {
      * @param visibleIndex visible index for this listing
      */
     private static String getIndexedListItem(int visibleIndex, String listItem) {
-        return String.format(MESSAGE_INDEXED_LIST_ITEM, visibleIndex, listItem);
+        return Formatter.formatIndexedListItem(visibleIndex, listItem);
     }
 
 }

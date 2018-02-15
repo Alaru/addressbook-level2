@@ -28,122 +28,30 @@ public class Formatter {
     private final java.util.Scanner in;
     private final java.io.PrintStream out;
 
-    public Formatter() {
-        this(System.in, System.out);
+
+    static String getCommmandPrompt() {
+        return LINE_PREFIX + "Enter command: ";
     }
 
-    public Formatter(java.io.InputStream in, java.io.PrintStream out) {
-        this.in = new java.util.Scanner(in);
-        this.out = out;
+    static String confirmUserCommand(String command) {
+        return "[Command entered:" + command + "]";
     }
 
-    /**
-     * Returns true if the user input line should be ignored.
-     * Input should be ignored if it is parsed as a comment, is only whitespace, or is empty.
-     *
-     * @param rawInputLine full raw user input line.
-     * @return true if the entire user input line should be ignored.
-     */
-    private boolean shouldIgnore(String rawInputLine) {
-        return rawInputLine.trim().isEmpty() || isCommentLine(rawInputLine);
+    static String[] formatWelcomeMessage(String version, String storageFileInfo) {
+        return new String[] {DIVIDER, DIVIDER, MESSAGE_WELCOME, version,
+                            MESSAGE_PROGRAM_LAUNCH_ARGS_USAGE, storageFileInfo, DIVIDER};
     }
 
-    /**
-     * Returns true if the user input line is a comment line.
-     *
-     * @param rawInputLine full raw user input line.
-     * @return true if input line is a comment.
-     */
-    private boolean isCommentLine(String rawInputLine) {
-        return rawInputLine.trim().matches(COMMENT_LINE_FORMAT_REGEX);
+    static String[] formatGoodbyeMessage() {
+        return new String[] {MESSAGE_GOODBYE, DIVIDER, DIVIDER};
     }
 
-    /**
-     * Prompts for the command and reads the text entered by the user.
-     * Ignores empty, pure whitespace, and comment lines.
-     * Echos the command back to the user.
-     * @return command (full line) entered by the user
-     */
-    public String getUserCommand() {
-        out.print(LINE_PREFIX + "Enter command: ");
-        String fullInputLine = in.nextLine();
-
-        // silently consume all ignored lines
-        while (shouldIgnore(fullInputLine)) {
-            fullInputLine = in.nextLine();
-        }
-
-        showToUser("[Command entered:" + fullInputLine + "]");
-        return fullInputLine;
+    static String[] formatInitFailedMessage() {
+        return new String[] {MESSAGE_INIT_FAILED, DIVIDER, DIVIDER};
     }
 
-
-    public void showWelcomeMessage(String version, String storageFilePath) {
-        String storageFileInfo = String.format(MESSAGE_USING_STORAGE_FILE, storageFilePath);
-        showToUser(
-                DIVIDER,
-                DIVIDER,
-                MESSAGE_WELCOME,
-                version,
-                MESSAGE_PROGRAM_LAUNCH_ARGS_USAGE,
-                storageFileInfo,
-                DIVIDER);
-    }
-
-    public void showGoodbyeMessage() {
-        showToUser(MESSAGE_GOODBYE, DIVIDER, DIVIDER);
-    }
-
-
-    public void showInitFailedMessage() {
-        showToUser(MESSAGE_INIT_FAILED, DIVIDER, DIVIDER);
-    }
-
-    /** Shows message(s) to the user */
-    public void showToUser(String... message) {
-        for (String m : message) {
-            out.println(LINE_PREFIX + m.replace("\n", LS + LINE_PREFIX));
-        }
-    }
-
-    /**
-     * Shows the result of a command execution to the user. Includes additional formatting to demarcate different
-     * command execution segments.
-     */
-    public void showResultToUser(seedu.addressbook.commands.CommandResult result) {
-        final java.util.Optional<java.util.List<? extends seedu.addressbook.data.person.ReadOnlyPerson>> resultPersons = result.getRelevantPersons();
-        if (resultPersons.isPresent()) {
-            showPersonListView(resultPersons.get());
-        }
-        showToUser(result.feedbackToUser, DIVIDER);
-    }
-
-    /**
-     * Shows a list of persons to the user, formatted as an indexed list.
-     * Private contact details are hidden.
-     */
-    private void showPersonListView(java.util.List<? extends seedu.addressbook.data.person.ReadOnlyPerson> persons) {
-        final java.util.List<String> formattedPersons = new java.util.ArrayList<>();
-        for (seedu.addressbook.data.person.ReadOnlyPerson person : persons) {
-            formattedPersons.add(person.getAsTextHidePrivate());
-        }
-        showToUserAsIndexedList(formattedPersons);
-    }
-
-    /** Shows a list of strings to the user, formatted as an indexed list. */
-    private void showToUserAsIndexedList(java.util.List<String> list) {
-        showToUser(getIndexedListForViewing(list));
-    }
-
-    /** Formats a list of strings as a viewable indexed list. */
-    private static String getIndexedListForViewing(java.util.List<String> listItems) {
-        final StringBuilder formatted = new StringBuilder();
-        int displayIndex = 0 + DISPLAYED_INDEX_OFFSET;
-        for (String listItem : listItems) {
-            formatted.append(getIndexedListItem(displayIndex, listItem)).append("\n");
-            displayIndex++;
-        }
-        return formatted.toString();
+    static String[] formatResult(String feedback) {
+        return new String[] {feedback, DIVIDER};
     }
 
     /**
@@ -151,7 +59,7 @@ public class Formatter {
      *
      * @param visibleIndex visible index for this listing
      */
-    private static String getIndexedListItem(int visibleIndex, String listItem) {
+    static String formatIndexedListItem(int visibleIndex, String listItem) {
         return String.format(MESSAGE_INDEXED_LIST_ITEM, visibleIndex, listItem);
     }
 

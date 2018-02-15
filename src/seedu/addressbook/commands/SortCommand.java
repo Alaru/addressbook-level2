@@ -19,6 +19,6 @@ public class SortCommand extends seedu.addressbook.commands.Command {
     @Override
     public seedu.addressbook.commands.CommandResult execute() {
         List<ReadOnlyPerson> allSortPersons = addressBook.getAllPersons().sortedPersonView();
-        return new CommandResult(getMessageForPersonListShownSummary(allSortPersons), allSortPersons);
+        return new CommandResult(getMessageForSortListShownSummary(allSortPersons), allSortPersons);
     }
 }

@@ -39,7 +39,7 @@ public class Tagging {
             case REMOVE:
                 change = REMOVED_SYMBOL;
         }
-        return change + " " + person.getName() + " [" + tag.toString() + "]";
+        return change + " " + person.getName() + " " + tag.toString();
     }
 
 }
